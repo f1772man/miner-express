@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
@@ -18,6 +18,14 @@ function Login() {
   const handleChange = (event) => {
     setUser({...user, [event.target.name] : event.target.value});
   }
+
+  useEffect(() => {
+    // 페이지가 새로 로드되거나 새로고침될 때 sessionStorage에서 토큰을 확인
+    const token = sessionStorage.getItem("jwt");
+    if (token) {
+      setAuth(true);  // 토큰이 있으면 로그인 상태로 설정
+    }
+  }, []);
   
   const login = () => {
     fetch(SERVER_URL + 'login', {
